@@ -1,0 +1,14 @@
+.container
+  padding-left $grid-padding
+  padding-right $grid-padding
+
+  +media($media-max)
+    width $grid-max-width
+
+  +media($media-middle)
+    width 100%
+
+  +media($media-min)
+    width $grid-min-width
+    padding-left 0
+    padding-right 0

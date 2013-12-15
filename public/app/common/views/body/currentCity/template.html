@@ -1,0 +1,10 @@
+<section class="currentCity">
+    <div class="btn-group">
+        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+            {{currentCity.title}} <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu pull-center" role="menu">
+            <li ng-repeat="city in cities"><a ng-click="change(city)">{{city.title}}</a></li>
+        </ul>
+    </div>
+</section>

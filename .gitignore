@@ -1,0 +1,8 @@
+.idea
+.DS_Store
+._.DS_Store
+
+public/*.dist
+
+public/vendor
+node_modules

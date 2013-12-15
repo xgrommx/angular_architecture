@@ -1,0 +1,14 @@
+<section>
+
+    <section class="video-block" ng-repeat="category in selections">
+
+        <header>
+            <h2>{{category.title}}</h2>
+        </header>
+
+        <div class="video-item" ng-repeat="video in category.videos">
+            <span>{{video.title}}</span>
+        </div>
+    </section>
+
+</section>

@@ -1,0 +1,26 @@
+media($condition)
+  @media $condition
+    {selector()}
+      {block}
+
+// union of different definitions
+opacity($value)
+  opacity $value
+  if support-for-ie
+    filter unquote('progid:DXImageTransform.Microsoft.Alpha(Opacity=' + round($value * 100) + ')')
+
+opacity-hover($value)
+  opacity $value
+  &:hover
+    opacity 1
+
+placeholder-color($color)
+  &:-moz-placeholder
+    color $color
+  &::-webkit-input-placeholder
+    color $color
+
+// Bootstrap override
+bootstrap-caret($color)
+  border-bottom-color $color
+  border-top-color $color
