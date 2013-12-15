@@ -1,7 +1,7 @@
 <nav>
     <ul class="tv">
-        <li><a ui-sref="tv.index">Все</a></li>
-        <li ng-repeat="category in categories" ui-sref-active="active">
+        <li ui-sref-active="active" class="tv-nav"><a ui-sref="tv.index">Все</a></li>
+        <li ng-repeat="category in categories" ui-sref-active="active" class="tv-nav">
             <a ui-sref="tv.category({category:category.urlName})">{{category.name}}</a>
         </li>
     </ul>
