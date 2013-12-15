@@ -21,4 +21,4 @@ Windows cmd:
 
     grunt
 
-http://sitename.local:8008
+http://sitename.local:8008/spb/tv
