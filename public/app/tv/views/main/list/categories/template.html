@@ -1,0 +1,13 @@
+<section>
+
+    <section ng-repeat="selection in selections">
+
+        <h2>{{selection.title}}</h2>
+
+        <div ng-repeat="video in selection.videos">
+            <app-video-thumbnail video="video"></app-video-thumbnail>
+        </div>
+
+    </section>
+
+</section>

@@ -10,7 +10,24 @@ define([
     app.factory('currentCity', function($cookiesStore, $state, $stateParams, City) {
         var currentCity = new City();
 
-        currentCity.$initialize = function(event, toState, toParams, fromState, fromParams) {
+        currentCity.$addGetCityOnRouteHandler = function($rootScope) {
+            $rootScope.currentCity = currentCity;
+            $rootScope.$on('$stateChangeStart', getCityOnRoute);
+        };
+
+        currentCity.$change = function(city) {
+            if ($stateParams.city) {
+                $stateParams.city = city.urlName;
+            }
+
+            $cookiesStore.put('city', city.id, {
+                expires: 14 * 24 * 60 * 60 // 14 days
+            });
+
+            $state.go('.', $stateParams, { reload: true });
+        };
+
+        var getCityOnRoute = function(event, toState, toParams, fromState, fromParams) {
             var city;
 
             if (toParams.city) {
@@ -40,18 +57,6 @@ define([
                     $state.go(toState, toParams);
                 });
             }
-        };
-
-        currentCity.$change = function(city) {
-            if ($stateParams.city) {
-                $stateParams.city = city.urlName;
-            }
-
-            $cookiesStore.put('city', city.id, {
-                expires: 14 * 24 * 60 * 60 // 14 days
-            });
-
-            $state.go('.', $stateParams, { reload: true });
         };
 
         return currentCity;

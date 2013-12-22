@@ -1,0 +1,14 @@
+<section>
+
+    <div ng-if="allVideos.length">
+        <h2>Найдено {{allVideos.$meta.totalCount}}</h2>
+
+        <div app-infinity="loadMoreAll()">
+            <div ng-repeat="video in allVideos">
+                <app-video-thumbnail video="video"></app-video-thumbnail>
+            </div>
+        </div>
+    </div>
+    <h1 ng-if="loadingAllVideos">Загрузка...</h1>
+
+</section>

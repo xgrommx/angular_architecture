@@ -1,8 +1,9 @@
 <nav>
-    <ul class="tv">
+    <ul>
         <li ui-sref-active="active" class="tv-nav"><a ui-sref="tv.index">Все</a></li>
         <li ng-repeat="category in categories" ui-sref-active="active" class="tv-nav">
             <a ui-sref="tv.category({category:category.urlName})">{{category.name}}</a>
         </li>
     </ul>
+    <input type="text" ng-model="searchQuery.str" ng-change="search(searchQuery.str)" app-change-timeout="500" placeholder="Поиск">
 </nav>

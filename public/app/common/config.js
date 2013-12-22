@@ -2,50 +2,72 @@ define([
 
     'app',
 
-    'angularAMD',
-
     'common/services/cookiesStore',
     'common/services/currentCity',
-    'common/services/routerDecorators/dynamicData'
 
-], function(app, angularAMD, cookiesStore, currentCity, routerDecoratorDynamicData) {
+    'common/services/router/stateDataGetters/provider',
+    'common/services/router/stateDataGetters/stateData',
 
-    app.config(function($stateProvider, $cookiesStoreProvider, routerDecoratorDynamicDataProvider) {
-        "use strict";
+    'common/services/router/shortViews',
+    'common/services/router/ignoreTrailingSlash',
 
-        routerDecoratorDynamicDataProvider.decorate($stateProvider);
+    'common/directives/changeTimeout',
 
+    'common/directives/infinityList/infinity',
+
+], function(app) {
+
+    // Application config
+    app.constant('config', {
+        resources: {
+            api: {
+                host: 'http://api.geometria.ru',
+                version: 1
+            }
+        }
+    });
+
+    // Configure router
+    app.config(function($locationProvider, $urlRouterProvider, routerIgnoreTrailingSlashProvider, routerStateDataGettersProvider, routerShortViewsProvider) {
+        $locationProvider.html5Mode(true);
+
+        $urlRouterProvider.otherwise('/spb/tv');
+
+        //routerIgnoreTrailingSlashProvider.addRuleToUrlRouter();
+
+        routerStateDataGettersProvider.decorateState();
+        routerShortViewsProvider.decorateState();
+    });
+
+    // Configure states
+    app.config(function($stateProvider) {
         $stateProvider.state('body', {
             abstract: true,
             views: {
                 body: {
                     templateUrl: '/app/common/views/body/template.html'
                 },
-                'currentCity@body': angularAMD.route({
-                    controller: 'CommonBodyCurrentCity',
-                    controllerUrl: 'common/views/body/currentCity/controller',
-                    templateUrl: '/app/common/views/body/currentCity/template.html'
-                })
+                'currentCity@body': 'common/body/currentCity'
             }
-
         });
+    });
 
-        // Configure cookies
+    // Configure cookies
+    app.config(function($cookiesStoreProvider) {
         $cookiesStoreProvider.setDefaultOptions({
             path: '/',
             domain: '.' + document.location.host.split('.').slice(-2).join('.').split(':')[0]
         });
-    });
+    })
 
-    app.run(function ($rootScope, $state, $stateParams, currentCity, routerDecoratorDynamicData) {
+    app.run(function($rootScope, $state, $stateParams, $injector, currentCity, routerStateDataGetters) {
         "use strict";
 
         // Initialize current city before invoke controllers
-        $rootScope.currentCity = currentCity;
-        $rootScope.$on('$stateChangeStart', currentCity.$initialize);
+        currentCity.$addGetCityOnRouteHandler($rootScope);
 
-        // Dynamic state data
-        $rootScope.$on('$stateChangeSuccess', routerDecoratorDynamicData.listenStateChangeSuccess($stateParams))
-        $rootScope.$on('$viewContentLoaded', _.bind(routerDecoratorDynamicData.listenViewContentLoaded, $state));
+        // State data from getters
+        routerStateDataGetters.addGetDataOnRouteHandler($injector, $rootScope, $stateParams);
+        routerStateDataGetters.addDataToViewsScopesOnRouteHandler($rootScope, $state);
     });
 });

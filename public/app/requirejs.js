@@ -4,6 +4,7 @@ require.config({
         lodash: '/vendor/lodash/lodash',
 
         angular: '/vendor/angular/angular',
+        angularRu: '/vendor/angular-i18n/angular-locale_ru',
         angularResource: '/vendor/angular-resource/angular-resource',
 
         uiRouter: '/vendor/angular-ui-router/release/angular-ui-router',
@@ -20,6 +21,7 @@ require.config({
         angular: {
             exports: 'angular'
         },
+        angularRu: ['angular'],
         uiRouter: ['angular'],
         uiBootstrap: ['angular'],
         angularAMD: ['angular'],
